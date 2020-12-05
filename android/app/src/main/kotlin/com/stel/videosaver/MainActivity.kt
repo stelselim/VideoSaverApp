@@ -1,0 +1,6 @@
+package com.stel.videosaver
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
