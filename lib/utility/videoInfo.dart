@@ -10,3 +10,19 @@ Future<Video> getVideoInfo(String url) async {
     return null;
   }
 }
+
+String viewFormatted(int views) {
+  if (views > 1000000000) {
+    return (views / 1000000000).toStringAsFixed(1).toString() + "B Views";
+  }
+  if (views > 1000000) {
+    return (views / 1000000).toStringAsFixed(1).toString() + "M Views";
+  }
+  if (views > 1000) {
+    return (views / 1000).toStringAsFixed(1).toString() + "K Views";
+  }
+  if (views < 1000) {
+    return views.toString() + " Views";
+  }
+  return (views / 1000).toStringAsFixed(1).toString() + "K Views";
+}

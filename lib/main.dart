@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:videosaver/screens/home.dart';
+import 'package:videosaver/screens/videoDetailScreen.dart';
 
 void main() {
   runApp(MainApp());
@@ -21,6 +22,9 @@ class _MainAppState extends State<MainApp> {
       initialRoute: "/",
       routes: {
         "/": (context) => Home(),
+        "/videoDetail": (context) => VideoDetailScreen(
+              video: null,
+            ),
       },
     );
   }

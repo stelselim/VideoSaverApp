@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:videosaver/components/videoCart.dart';
+import 'package:videosaver/utility/shareVideo.dart';
 import 'package:videosaver/utility/sharedPreferences.dart';
 import 'package:videosaver/utility/videoInfo.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -161,8 +162,7 @@ class _HomeState extends State<Home> {
                             icon: Icons.share,
                             onTap: () async {
                               try {
-                                await removeVideo(index);
-                                setState(() {});
+                                await shareVideo(urlOfVideo);
                               } catch (e) {
                                 print(e);
                               }
