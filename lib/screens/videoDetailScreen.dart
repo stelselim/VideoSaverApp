@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:videosaver/utility/openYoutube.dart';
 import 'package:videosaver/utility/videoInfo.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -47,20 +48,26 @@ class VideoDetailScreen extends StatelessWidget {
                       fit: BoxFit.fitWidth,
                     ),
                     Positioned(
-                      top: 100,
+                      top: 90,
                       child: RaisedButton(
                         child: Icon(
                           Icons.play_arrow,
                           size: 60,
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          try {
+                            await launchURL(video.url);
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
                       ),
                     )
                   ],
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
+                  child: SelectableText(
                     video.title,
                     style: videoTitleTextStyle,
                   ),
@@ -74,13 +81,19 @@ class VideoDetailScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        video.author,
-                        style: channelTextStyle,
+                      Container(
+                        width: MediaQuery.of(context).size.width * 5.5 / 10,
+                        child: SelectableText(
+                          video.author,
+                          style: channelTextStyle,
+                        ),
                       ),
-                      Text(
-                        viewFormatted(video.engagement.viewCount),
-                        style: videoViewsTextStyle,
+                      Container(
+                        width: MediaQuery.of(context).size.width * 3 / 10,
+                        child: SelectableText(
+                          viewFormatted(video.engagement.viewCount),
+                          style: videoViewsTextStyle,
+                        ),
                       ),
                     ],
                   ),
@@ -92,7 +105,7 @@ class VideoDetailScreen extends StatelessWidget {
                     right: 15,
                     bottom: 20,
                   ),
-                  child: Text(
+                  child: SelectableText(
                     "Description:\n\n" + video.description,
                     style: videoDescriptionTextStyle,
                   ),
