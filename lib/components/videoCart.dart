@@ -1,14 +1,113 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:videosaver/style/textStyles.dart';
+import 'package:videosaver/utility/sharedPreferences.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class VideoCard extends StatelessWidget {
   final Function setStateParent;
+  final Video video;
+  final int videoIndex;
 
-  const VideoCard({Key key, this.setStateParent}) : super(key: key);
+  const VideoCard({
+    Key key,
+    @required this.video,
+    @required this.videoIndex,
+    @required this.setStateParent,
+  }) : super(key: key);
+
+  String viewFormatted(int views) {
+    if (views > 1000000000) {
+      return (views / 1000000000).toStringAsFixed(1).toString() + "B Views";
+    }
+    if (views > 1000000) {
+      return (views / 1000000).toStringAsFixed(1).toString() + "M Views";
+    }
+    if (views > 1000) {
+      return (views / 1000).toStringAsFixed(1).toString() + "K Views";
+    }
+    if (views < 1000) {
+      return views.toString() + " Views";
+    }
+    return (views / 1000).toStringAsFixed(1).toString() + "K Views";
+  }
 
   @override
   Widget build(BuildContext context) {
+    final title = video.title;
+    final channelName = video.author;
+    final views = video.engagement.viewCount;
+
+    final videoTitleTextStyle = TextStyle(
+      fontWeight: FontWeight.w600,
+      color: Colors.blueGrey.shade800,
+      fontSize: 15,
+    );
+    final channelTextStyle = TextStyle(
+      fontWeight: FontWeight.w500,
+      color: Colors.blueGrey.shade900,
+      fontSize: 13,
+    );
+    final videoViewsTextStyle = TextStyle(
+      fontWeight: FontWeight.w600,
+      color: Colors.green.shade800,
+      fontSize: 12,
+    );
+
     return Container(
-      child: Text(""),
+      margin: EdgeInsets.symmetric(vertical: 5),
+      child: Row(
+        children: [
+          // Thumbnail
+          Expanded(
+            flex: 2,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              child: CachedNetworkImage(
+                imageUrl: video.thumbnails.mediumResUrl,
+                fit: BoxFit.fitWidth,
+              ),
+            ),
+          ),
+          // Video Details
+          Expanded(
+            flex: 3,
+            child: Container(
+              padding: EdgeInsets.only(right: 5),
+              alignment: Alignment.centerLeft,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: videoTitleTextStyle,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                  SizedBox(height: 3),
+                  Text(
+                    channelName,
+                    style: channelTextStyle,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        viewFormatted(views),
+                        style: videoViewsTextStyle,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

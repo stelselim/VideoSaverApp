@@ -18,7 +18,10 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Home(),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => Home(),
+      },
     );
   }
 }
